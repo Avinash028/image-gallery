@@ -24,8 +24,8 @@
         <h1 class="text-center display-4 my-4 lead" style="color: #4F9783;">Photo Gallery</h1>
         <form action="/upload" method="POST" enctype="multipart/form-data">
           <div class="custom-file mb-3">
-            <input type="file" name="file" id="file" class="custom-file-input">
-            <label for="file" class="custom-file-label">Choose File</label>
+            <input type="file" name="file" id="file" class="custom-file-input" onclick="fun()">
+            <label for="file" class="custom-file-label" id="abc" >Choose File</label>
           </div>
           <input type="submit" value="Submit" class="btn btn-block" style="background-color: #57A0D3;">
         </form>
@@ -56,6 +56,14 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+
+    <script>
+      function fun(){
+        document.getElementById('abc').innerHTML="File Added ,Click on Submit";
+      
+      }
+      
+    </script>
 </body>
 
 </html>
