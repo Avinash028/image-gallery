@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 
 const mongoURI = 'mongodb+srv://avinash:avinash@cluster0-fmft1.mongodb.net/test?retryWrites=true&w=majority';
 
+
 const conn = mongoose.createConnection(mongoURI);
 
 
@@ -48,7 +49,7 @@ const storage = new GridFsStorage({
     });
   }
 });
-const upload = multer({ storage });
+const upload = multer({ storage : storage }).array('file', 10);;
 
 
 app.get('/', (req, res) => {
@@ -73,8 +74,15 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/upload', upload.single('file'), (req, res) => {
- 
+app.post('/upload', (req, res) => {
+  
+  upload(req,res,function(err) {
+    
+    if(err) {
+        return res.end("Error uploading file.");
+    }
+    res.end("File is uploaded");
+});
   res.redirect('/');
 });
 
@@ -96,21 +104,20 @@ app.get('/files', (req, res) => {
 
 app.get('/files/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-   
+    
     if (!file || file.length === 0) {
       return res.status(404).json({
         err: 'No file exists'
       });
     }
-    
+   
     return res.json(file);
   });
 });
 
-
 app.get('/image/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-   
+    
     if (!file || file.length === 0) {
       return res.status(404).json({
         err: 'No file exists'
