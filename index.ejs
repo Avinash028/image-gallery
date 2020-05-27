@@ -12,6 +12,40 @@
       width: 100%;
     }
 
+    .grid-col {
+  float: left;
+  width: 49%;
+  margin-right: 2%;
+  
+}
+
+.grid-col--2 { margin-right: 0; 
+ width: 50%;
+}
+
+/* hide two middle */
+
+
+@media ( min-width: 768px ) {
+  .grid-col { width: 32%; }
+  .grid-col--2 { display: block; }
+}
+
+@media ( min-width: 1200px ) {
+  .grid-col { width: 23.5%; }
+ 
+}
+
+.grid-item {
+  
+  min-height: 100px;
+}
+
+.grid-item img {
+  display: block;
+  width: 100%;
+}
+
     
   </style>
   <title>Mongo File Uploads</title>
@@ -20,32 +54,55 @@
 <body style="background:url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fcategory%2Fnature&psig=AOvVaw0YDtGUcy5corolMLzkw_me&ust=1590593896715000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMD3novu0ekCFQAAAAAdAAAAABAD)">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 m-auto">
-        <h1 class="text-center display-4 my-4 lead" style="color: #4F9783;">Photo Gallery</h1>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="">
+        <h1 class="text-center display-4 my-4 lead">Photo Gallery</h1>
+        <form action="/upload" method="POST" enctype="multipart/form-data" >
           <div class="custom-file mb-3">
-            <input type="file" name="file" id="file" class="custom-file-input" onclick="fun()">
-            <label for="file" class="custom-file-label" id="abc" >Choose File</label>
+            <input type="file" name="file" id="file" class="custom-file-input" onclick="fun()" multiple>
+            <label for="file" class="custom-file-label" id="abc">Choose File</label>
           </div>
-          <input type="submit" value="Submit" class="btn btn-block" style="background-color: #57A0D3;">
+          <input type="submit" value="Submit" class="btn btn-primary btn-block">
         </form>
         <hr>
         <% if(files){ %>
-          <% files.forEach(function(file) { %>
-            <div class="card card-body mb-3">
-              <% if(file.isImage) { %>
-                <img src="image/<%= file.filename %>" alt="">
-                <% } else { %>
-                  <%= file.filename %>
-                    <% } %>
-                      <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
-                        <button class="btn  btn-danger btn-block mt-4">Delete</button>
-                      </form>
+          <div class="grid">
+            <div class="grid-col grid-col-1">
+
             </div>
+            <div class="grid-col grid-col-2">
+              
+            </div>
+            
+            
+            
+
+            
+            
+
+            <div class="grid-item">
+
+              <% files.forEach(function(file) { %>
+                <div class="grid-item">
+                 
+                  <% if(file.isImage) { %>
+                    <img src="image/<%= file.filename %>" alt="">
+                    <% } else { %>
+                      <%= file.filename %>
+                        <% } %>
+                          <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
+                            <button class="btn  btn-danger btn-block mt-4">Delete</button>
+                          </form>
+                </div>
+
+            </div>
+          
+          
+
             <% }) %>
               <% } else { %>
                 <p>No files to show</p>
                 <% } %>
+              </div>
       </div>
     </div>
   </div>
@@ -56,14 +113,22 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/colcade@0/colcade.js"></script>
 
     <script>
       function fun(){
         document.getElementById('abc').innerHTML="File Added ,Click on Submit";
       
       }
+
+      var colc = new Colcade( '.grid', {
+        columns: '.grid-col',
+        items: '.grid-item'
+      });
       
     </script>
+
+    
 </body>
 
 </html>
